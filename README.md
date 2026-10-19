@@ -3,6 +3,13 @@
 ## Phase 2: Policy Document Scraper and Testing
 
 This repository contains the group's Phase 2 work on a minimal Java policy-document scraper and the design of tests for unusual website and network conditions.
+| Student Name |  Student Number | GitHub ID |
+| :---: | :---: | :---: |
+| Yamini Singh | 24193929 | yamxnx |
+| Anand Panicker | 25159471 | Anand21-Dev |
+| Alan Ling | 23843412 | AlanLingYS |
+| MIneth Perera | 23284373 | ethnimp |
+| Suraj Kumar Vijay Kumar | 24444964 | surajkumar1818 |
 
 ## Repository contents
 
