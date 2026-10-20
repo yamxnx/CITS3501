@@ -126,7 +126,3 @@ These are **test ideas**, not claims that all scenarios were implemented or exec
 - A completed HTTP response can be reported even when its status is not successful; the output must be interpreted accordingly.
 - There is no retry mechanism for failed requests.
 - The current snapshot lacks a reproducible Maven build configuration and the Task 3 fixture file.
-
-## Submission notes
-
-Check the assessment instructions for required deliverables, including the report formats, runnable source code, test fixture, and team details. The repository alone does not replace the formal assignment submission.
