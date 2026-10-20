@@ -15,14 +15,13 @@ This repository contains the group's Phase 2 work on a minimal Java policy-docum
 
 | File | Purpose |
 | --- | --- |
-| `Scraper.java` | Java scraper prototype (Task 1). |
-| `FixtureServer.java` | Local HTTP server for the invalid-PDF fixture (Task 3). |
-| `Task3README.md` | Instructions and expected results for the Task 3 fixture demonstration. |
+| `task1-prototype/` | Java scraper prototype, Maven build files, and run instructions (Task 1). |
+| `fixtures/FixtureServer.java` | Local HTTP server for the invalid-PDF fixture (Task 3). |
+| `fixtures/invalid-policy.pdf` | HTML error page deliberately named as a PDF (Task 3). |
+| `fixtures/README.md` | Instructions and expected results for the Task 3 demonstration. |
 | `PHASE 2 CITS3301_5501 SOFTWARE TESTING AND QUALITY ASSURANCE.md` | Group Phase 2 report in Markdown. |
 | `PHASE 2 CITS3301_5501 SOFTWARE TESTING AND QUALITY ASSURANCE (1).docx` | Word copy of the group report. |
-| `Prototype README.md` | Original prototype documentation. |
-
-**Note:** The uploaded repository snapshot does not contain a `pom.xml`, Maven wrapper, or `invalid-policy.pdf` fixture. These need to be added if they are required for the final submission. The existing prototype README refers to Maven commands that cannot run from this snapshot as-is.
+| `task1-prototype/README.md` | Prototype documentation. |
 
 ## Task 1 — Scraper prototype
 
@@ -52,19 +51,16 @@ The prototype:
 - **JDK 17 or later**.
 - The **jsoup** Java library on the classpath.
 
-`Scraper.java` declares `package scraper;`, so its source file must be compiled into the corresponding package layout. This repository snapshot has no build configuration or bundled jsoup dependency, so there is **not yet a verified one-command run instruction** for the checked-in files.
-
-Once the group adds a working `pom.xml` and the Maven wrapper configured to run `scraper.Scraper`, the intended commands described in the prototype documentation are:
+The prototype source and Maven build files are in `task1-prototype/`. From that directory, follow its README. Its documented macOS/Linux command is:
 
 ```bash
-# macOS/Linux — after adding the Maven build files
 ./mvnw -q compile exec:java
 
 # Optional custom starting page
 ./mvnw -q compile exec:java -Dexec.args="http://localhost:3000/"
 ```
 
-These commands are **not runnable from the current ZIP without the missing Maven files**. Do not present them as tested until the build configuration has been added and checked.
+The Maven wrapper may need to download Maven and jsoup on first use.
 
 ## Task 2 — Test design
 
@@ -72,7 +68,7 @@ The group report documents test scenarios for scraper behaviour under normal and
 
 ## Task 3 — Test fixture and test double
 
-`FixtureServer.java` implements a small local HTTP server using Java's built-in `jdk.httpserver` module. It serves the path `/invalid-policy.pdf` on `127.0.0.1:8765` and intentionally responds with:
+`fixtures/FixtureServer.java` implements a small local HTTP server using Java's built-in `jdk.httpserver` module. It serves the path `/invalid-policy.pdf` on `127.0.0.1:8765` and intentionally responds with:
 
 - HTTP `200 OK`;
 - `Content-Type: application/pdf`;
@@ -83,9 +79,10 @@ This checks whether a scraper trusts the URL and headers without inspecting the 
 
 ### Run the fixture server
 
-The server reads `invalid-policy.pdf` from the current working directory. **That fixture file is not included in the uploaded snapshot**; add the HTML-content fixture under that exact filename before running the demonstration.
+The server reads `invalid-policy.pdf` from its current working directory. Run these commands from `fixtures/`:
 
 ```bash
+cd fixtures
 javac --add-modules jdk.httpserver FixtureServer.java
 java --add-modules jdk.httpserver FixtureServer
 ```
@@ -102,7 +99,7 @@ head -n 5 downloaded-policy.pdf
 od -An -tx1 -N8 downloaded-policy.pdf
 ```
 
-The expected result is a response that claims to be a PDF but whose first bytes are HTML (`<!DOCTYPE html>`), rather than the `%PDF-` signature. See [`Task3README.md`](Task3README.md) for the detailed demonstration and expected behaviour.
+The expected result is a response that claims to be a PDF but whose first bytes are HTML (`<!DOCTYPE html>`), rather than the `%PDF-` signature. See [`fixtures/README.md`](fixtures/README.md) for the detailed demonstration and expected behaviour.
 
 ## Task 4 — Adversarial inputs
 
@@ -125,4 +122,3 @@ These are **test ideas**, not claims that all scenarios were implemented or exec
 - File-type detection uses a short byte signature and does not fully validate document integrity.
 - A completed HTTP response can be reported even when its status is not successful; the output must be interpreted accordingly.
 - There is no retry mechanism for failed requests.
-- The current snapshot lacks a reproducible Maven build configuration and the Task 3 fixture file.
